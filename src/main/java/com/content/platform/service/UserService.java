@@ -131,13 +131,58 @@ public class UserService
         }
         catch (ResourceNotFoundException ex)
         {
-            log.error("No user found with id: {}", userId);
+            log.error("No user found with userId: {}", userId);
             throw ex;
         }
         catch (Exception ex)
         {
             log.error("An Error occurred while trying to get user by userId with exception: {}", ex.getMessage(), ex);
             throw new CustomException("An Unexpected error occurred while trying to get user by userId: " + userId);
+        }
+    }
+
+
+    /***
+     * Updates the user by user's id
+     * @param userId id of user to be updated
+     * @param userRequestDto dto containing user details
+     * @return dto containing updated user details
+     * @throws ResourceNotFoundException if user not found
+     * @throws CustomException if unexpected error occurs
+     */
+    public UserResponseDto updateUserByUserId(Long userId, UserRequestDto userRequestDto)
+    {
+        try
+        {
+            log.info("Processing request to update user by userId");
+            Optional<UserModel> optionalUserModel = userRepository.findById(userId);
+            if(optionalUserModel.isEmpty())
+            {
+                log.warn("Attempt to update user by user id failed, No user found for userId: {}", userId);
+                throw new ResourceNotFoundException("No user found with id: " + userId);
+            }
+            UserModel userModel = mapper.map(optionalUserModel.get(), UserModel.class);
+            if(userRequestDto.getUserFullName() != null && !userRequestDto.getUserFullName().isEmpty())
+            {
+                userModel.setUserFullName(userRequestDto.getUserFullName());
+            }
+            if(userRequestDto.getUserMail() != null && !userRequestDto.getUserMail().isEmpty())
+            {
+                userModel.setUserMail(userRequestDto.getUserMail());
+            }
+            UserResponseDto updatedUserResponseDto = mapper.map(userRepository.save(userModel), UserResponseDto.class);
+            log.info("User updated successfully with userId: {}", userId);
+            return updatedUserResponseDto;
+        }
+        catch (ResourceNotFoundException ex)
+        {
+            log.error("No user found with user id: {}", userId);
+            throw ex;
+        }
+        catch (Exception ex)
+        {
+            log.error("An Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
+            throw new CustomException("An Unexpected error occurred while trying to update user by userId: " + userId);
         }
     }
 

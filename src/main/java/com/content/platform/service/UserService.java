@@ -61,15 +61,15 @@ public class UserService
             log.info("User added successfully with email: {}", userRequestDto.getUserMail());
             return mapper.map(userModel, UserResponseDto.class);
         }
-        catch(ResourceAlreadyExistException ex)
+        catch (ResourceAlreadyExistException ex)
         {
-            log.error("User already exists with mail: {} and exception: ",userRequestDto.getUserMail(), ex);
+            log.error("User already exists with mail: {} and exception: ", userRequestDto.getUserMail(), ex);
             throw ex;
         }
         catch (Exception ex)
         {
             log.error("An error occurred while trying to add a new user with exception: {}", ex.getMessage(), ex);
-            throw new CustomException("An Unexpected error occurred while trying to add a new user with exception: " + ex.getMessage());
+            throw ex;
         }
     }
 
@@ -104,7 +104,7 @@ public class UserService
         catch (Exception ex)
         {
             log.error("An error occurred while trying to get all users with exception: {}", ex.getMessage(), ex);
-            throw new CustomException("An Unexpected error occurred while trying to get all users with exception: " + ex.getMessage());
+            throw ex;
         }
     }
 
@@ -137,7 +137,7 @@ public class UserService
         catch (Exception ex)
         {
             log.error("An Error occurred while trying to get user by userId with exception: {}", ex.getMessage(), ex);
-            throw new CustomException("An Unexpected error occurred while trying to get user by userId: " + userId);
+            throw ex;
         }
     }
 
@@ -156,17 +156,17 @@ public class UserService
         {
             log.info("Processing request to update user by userId");
             Optional<UserModel> optionalUserModel = userRepository.findById(userId);
-            if(optionalUserModel.isEmpty())
+            if (optionalUserModel.isEmpty())
             {
                 log.warn("Attempt to update user by user id failed, No user found for userId: {}", userId);
                 throw new ResourceNotFoundException("No user found with id: " + userId);
             }
-            UserModel userModel = mapper.map(optionalUserModel.get(), UserModel.class);
-            if(userRequestDto.getUserFullName() != null && !userRequestDto.getUserFullName().isEmpty())
+            UserModel userModel = optionalUserModel.get();
+            if (userRequestDto.getUserFullName() != null && !userRequestDto.getUserFullName().isEmpty())
             {
                 userModel.setUserFullName(userRequestDto.getUserFullName());
             }
-            if(userRequestDto.getUserMail() != null && !userRequestDto.getUserMail().isEmpty())
+            if (userRequestDto.getUserMail() != null && !userRequestDto.getUserMail().isEmpty())
             {
                 userModel.setUserMail(userRequestDto.getUserMail());
             }
@@ -179,10 +179,15 @@ public class UserService
             log.error("No user found with user id: {}", userId);
             throw ex;
         }
+        catch (NullPointerException ex)
+        {
+            log.error("An Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
+            throw new CustomException("An Unexpected error occurred while trying to update user by userId");
+        }
         catch (Exception ex)
         {
             log.error("An Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
-            throw new CustomException("An Unexpected error occurred while trying to update user by userId: " + userId);
+            throw ex;
         }
     }
 

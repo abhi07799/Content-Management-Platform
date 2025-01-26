@@ -13,30 +13,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class UserModel
+@Table(name = "content_category")
+public class CategoryModel
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String userFullName;
-
     @Column(unique = true, nullable = false)
-    private String userMail;
+    private String categoryName;
 
     @Column(nullable = false)
-    private String userPassword;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String description;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedAt;
 }

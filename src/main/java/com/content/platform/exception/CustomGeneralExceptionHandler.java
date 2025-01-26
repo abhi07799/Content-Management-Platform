@@ -64,4 +64,13 @@ public class CustomGeneralExceptionHandler
         ErrorDto errorDto = ErrorDto.builder().status(HttpStatus.BAD_REQUEST).timestamp(LocalDateTime.now()).message("Validation Error").details(errors).build();
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResponseEntity<ErrorDto> handleAnyException(Exception ex, WebRequest request)
+    {
+        ErrorDto errorDto = ErrorDto.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).timestamp(LocalDateTime.now()).message("Something Went Wrong").debugMessage(ex.getMessage()).build();
+        return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

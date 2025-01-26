@@ -19,6 +19,7 @@ import java.util.List;
 
 @Tag(name = "User", description = "User management APIs")
 @RestController
+@RequestMapping("/v1/user")
 public class UserController
 {
     private final UserService userService;
@@ -31,17 +32,17 @@ public class UserController
 
     @Operation(summary = "Create a new user", description = "This endpoint accepts user request dto and returns a user response dto.")
     @ApiResponses(
-            { @ApiResponse(responseCode = "200",description = "User created successfully",
+            {@ApiResponse(responseCode = "200", description = "User created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
-                    @ApiResponse(responseCode = "400",description = "Invalid input data",
+                    @ApiResponse(responseCode = "400", description = "Invalid input data",
                             content = @Content(mediaType = "application/json")
                     ),
-                    @ApiResponse(responseCode = "500",description = "Internal Server Error",
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(mediaType = "application/json")
                     )
             })
-    @PostMapping("/user/addUser")
+    @PostMapping("/addUser")
     public ResponseEntity<UserResponseDto> addUser(@Valid @RequestBody UserRequestDto userRequestDto)
     {
         return new ResponseEntity<>(userService.addUser(userRequestDto), HttpStatus.CREATED);
@@ -50,17 +51,17 @@ public class UserController
 
     @Operation(summary = "Fetch all users", description = "This endpoint returns a list of user response dto.")
     @ApiResponses(
-            { @ApiResponse(responseCode = "200",description = "All Users fetched successfully",
+            {@ApiResponse(responseCode = "200", description = "All Users fetched successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
-                    @ApiResponse(responseCode = "404",description = "User Not Found",
+                    @ApiResponse(responseCode = "404", description = "User Not Found",
                             content = @Content(mediaType = "application/json")
                     ),
-                    @ApiResponse(responseCode = "500",description = "Internal Server Error",
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(mediaType = "application/json")
                     )
             })
-    @GetMapping("/admin/getAllUsers")
+    @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserResponseDto>> getAllUsers()
     {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -68,20 +69,38 @@ public class UserController
 
     @Operation(summary = "Fetch a user by user id", description = "This endpoint accepts user id and returns a user response dto.")
     @ApiResponses(
-            { @ApiResponse(responseCode = "200",description = "User fetched successfully",
+            {@ApiResponse(responseCode = "200", description = "User fetched successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
-                    @ApiResponse(responseCode = "404",description = "User Not Found",
+                    @ApiResponse(responseCode = "404", description = "User Not Found",
                             content = @Content(mediaType = "application/json")
                     ),
-                    @ApiResponse(responseCode = "500",description = "Internal Server Error",
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(mediaType = "application/json")
                     )
             })
-    @GetMapping("/user/getUserByUserId/{userId}")
+    @GetMapping("/getUserByUserId/{userId}")
     public ResponseEntity<UserResponseDto> getUserByUserId(@PathVariable("userId") Long userId)
     {
         return new ResponseEntity<>(userService.getUserByUserId(userId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Update a user by user id", description = "This endpoint accepts user id, request user dto and returns a updated user response dto.")
+    @ApiResponses(
+            {@ApiResponse(responseCode = "200", description = "User updated successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
+            ),
+                    @ApiResponse(responseCode = "404", description = "User Not Found",
+                            content = @Content(mediaType = "application/json")
+                    ),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                            content = @Content(mediaType = "application/json")
+                    )
+            })
+    @PutMapping("/updateUser/{userId}")
+    public ResponseEntity<UserResponseDto> updateUserByUserId(@PathVariable("userId") Long userId, @RequestBody UserRequestDto userRequestDto)
+    {
+        return new ResponseEntity<>(userService.updateUserByUserId(userId, userRequestDto), HttpStatus.OK);
     }
 
 

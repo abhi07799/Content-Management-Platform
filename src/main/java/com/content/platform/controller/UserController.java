@@ -1,5 +1,6 @@
 package com.content.platform.controller;
 
+import com.content.platform.dto.ErrorDto;
 import com.content.platform.dto.request.UserRequestDto;
 import com.content.platform.dto.response.UserResponseDto;
 import com.content.platform.service.UserService;
@@ -36,10 +37,10 @@ public class UserController
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
                     @ApiResponse(responseCode = "400", description = "Invalid input data",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     ),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     )
             })
     @PostMapping("/addUser")
@@ -55,10 +56,10 @@ public class UserController
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
                     @ApiResponse(responseCode = "404", description = "User Not Found",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     ),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     )
             })
     @GetMapping("/getAllUsers")
@@ -73,10 +74,10 @@ public class UserController
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
                     @ApiResponse(responseCode = "404", description = "User Not Found",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     ),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     )
             })
     @GetMapping("/getUserByUserId/{userId}")
@@ -91,10 +92,10 @@ public class UserController
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
             ),
                     @ApiResponse(responseCode = "404", description = "User Not Found",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     ),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = @Content(mediaType = "application/json")
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     )
             })
     @PutMapping("/updateUser/{userId}")

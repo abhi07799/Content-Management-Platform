@@ -68,7 +68,7 @@ public class UserService
         }
         catch (Exception ex)
         {
-            log.error("An error occurred while trying to add a new user with exception: {}", ex.getMessage(), ex);
+            log.error("An Unexpected error occurred while trying to add a new user with exception: {}", ex.getMessage(), ex);
             throw ex;
         }
     }
@@ -103,7 +103,7 @@ public class UserService
         }
         catch (Exception ex)
         {
-            log.error("An error occurred while trying to get all users with exception: {}", ex.getMessage(), ex);
+            log.error("An Unexpected error occurred while trying to get all users with exception: {}", ex.getMessage(), ex);
             throw ex;
         }
     }
@@ -136,7 +136,7 @@ public class UserService
         }
         catch (Exception ex)
         {
-            log.error("An Error occurred while trying to get user by userId with exception: {}", ex.getMessage(), ex);
+            log.error("An Unexpected Error occurred while trying to get user by userId with exception: {}", ex.getMessage(), ex);
             throw ex;
         }
     }
@@ -186,7 +186,7 @@ public class UserService
         }
         catch (Exception ex)
         {
-            log.error("An Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
+            log.error("An Unexpected Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
             throw ex;
         }
     }

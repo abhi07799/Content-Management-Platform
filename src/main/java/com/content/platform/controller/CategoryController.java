@@ -30,23 +30,7 @@ public class CategoryController
         this.categoryService = categoryService;
     }
 
-    @Operation(summary = "Create a new category", description = "This endpoint accepts category request dto and returns a category response dto.")
-    @ApiResponses(
-            {@ApiResponse(responseCode = "200", description = "Category created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryResponseDto.class))
-            ),
-                    @ApiResponse(responseCode = "400", description = "Invalid input data",
-                            content = @Content(mediaType = "application/json")
-                    ),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = @Content(mediaType = "application/json")
-                    )
-            })
-    @PostMapping("/addCategory")
-    public ResponseEntity<CategoryResponseDto> addCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto)
-    {
-        return new ResponseEntity<>(categoryService.addCategory(categoryRequestDto), HttpStatus.CREATED);
-    }
+
 
 
     @Operation(summary = "Fetch all categories", description = "This endpoint returns a list of category response dto.")

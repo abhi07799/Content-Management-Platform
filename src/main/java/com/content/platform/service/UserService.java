@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -187,6 +190,36 @@ public class UserService
         catch (Exception ex)
         {
             log.error("An Unexpected Error occurred while trying to update user by userId with exception: {}", ex.getMessage(), ex);
+            throw ex;
+        }
+    }
+
+    public UserResponseDto getUserProfile()
+    {
+        try
+        {
+            log.info("Processing request to get user profile");
+            UserModel loggedInUser = (UserModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            Optional<UserModel> optionalUserModel = userRepository.findByUserMail(loggedInUser.getUsername());
+            if(optionalUserModel.isEmpty())
+            {
+                log.warn("Attempt to get user profile failed, No user found for userMail: {}", loggedInUser.getUsername());
+                throw new ResourceNotFoundException("No user found for userMail: " + loggedInUser.getUsername());
+            }
+
+            UserResponseDto userResponseDto = mapper.map(optionalUserModel.get(), UserResponseDto.class);
+            log.info("User profile fetched successfully");
+            return userResponseDto;
+        }
+        catch (ResourceNotFoundException ex)
+        {
+            log.error("No User Found!!");
+            throw ex;
+        }
+        catch (Exception ex)
+        {
+            log.error("An Unexpected Error occurred while trying to fetch user profile with exception: {}", ex.getMessage(), ex);
             throw ex;
         }
     }

@@ -6,6 +6,7 @@ import com.content.platform.security.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,7 +58,9 @@ public class SecurityConfig
                         .permitAll()
                         .requestMatchers("/v1/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers( "/v1/category/**").hasAuthority(Role.AUTHOR.name())
-                        .requestMatchers("/v1/user/**","/v1/posts/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers(HttpMethod.POST, "/v1/posts/**").hasAuthority(Role.AUTHOR.name())
+                        .requestMatchers("/v1/user/**").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers(HttpMethod.GET,"/v1/posts/**").hasAnyAuthority(Role.AUTHOR.name(), Role.USER.name())
 
                         .anyRequest().authenticated())
 

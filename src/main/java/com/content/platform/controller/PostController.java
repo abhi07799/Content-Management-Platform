@@ -50,7 +50,6 @@ public class PostController
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
                     )
             })
-    @PreAuthorize("hasAuthority('AUTHOR')")
     @PostMapping("/addPost")
     public ResponseEntity<PostResponseDto> addPost(@Valid @RequestBody PostRequestDto postRequestDto)
     {

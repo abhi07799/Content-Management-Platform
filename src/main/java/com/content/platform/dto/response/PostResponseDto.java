@@ -3,7 +3,7 @@ package com.content.platform.dto.response;
 
 import com.content.platform.model.CategoryModel;
 import com.content.platform.model.PostType;
-import com.content.platform.model.UserModel;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Post Response DTO")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostResponseDto
 {
     private Long id;
@@ -23,7 +24,6 @@ public class PostResponseDto
     private String postContent;
     private PostType postType;
     private CategoryModel postCategory;
-    private UserModel postAuthor;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

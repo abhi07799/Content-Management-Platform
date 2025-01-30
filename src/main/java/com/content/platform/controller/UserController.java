@@ -64,7 +64,7 @@ public class UserController
                     )
             })
     @GetMapping("/getUserProfile")
-    public ResponseEntity<UserResponseDto> getUserByUserId()
+    public ResponseEntity<UserResponseDto> getUserProfile()
     {
         return new ResponseEntity<>(userService.getUserProfile(), HttpStatus.OK);
     }

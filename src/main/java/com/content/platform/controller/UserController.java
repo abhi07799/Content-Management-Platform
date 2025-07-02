@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Tag(name = "User", description = "User management APIs")
 @RestController
 @RequestMapping("/v1/user")
@@ -29,27 +27,6 @@ public class UserController
     {
         this.userService = userService;
     }
-
-//    @Operation(summary = "Create a new user", description = "This endpoint accepts user request dto and returns a user response dto.")
-//    @ApiResponses(
-//            {@ApiResponse(responseCode = "200", description = "User created successfully",
-//                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))
-//            ),
-//                    @ApiResponse(responseCode = "400", description = "Invalid input data",
-//                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
-//                    ),
-//                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
-//                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))
-//                    )
-//            })
-//    @PostMapping("/addUser")
-//    public ResponseEntity<UserResponseDto> addUser(@Valid @RequestBody UserRequestDto userRequestDto)
-//    {
-//        return new ResponseEntity<>(userService.addUser(userRequestDto), HttpStatus.CREATED);
-//    }
-
-
-
 
     @Operation(summary = "Fetch user profile", description = "This endpoint returns a user profile response dto.")
     @ApiResponses(
